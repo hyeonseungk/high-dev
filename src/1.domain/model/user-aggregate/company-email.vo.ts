@@ -28,7 +28,7 @@ export class CompanyEmail extends ValueObject {
     return [splitted[0], splitted[1]];
   }
 
-  protected validate(): void {
+  validate(): void {
     if (typeof this.emailId !== 'string' || this.emailId.length > 30) {
       throw new DomainError(DomainErrorCode.NICKNAME_INVALID);
     }

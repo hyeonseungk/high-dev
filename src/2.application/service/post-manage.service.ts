@@ -16,6 +16,7 @@ export class PostManageService implements PostManageUseCase {
     await this.checkIfCanCreatePostService.check(userId, today);
     const post = Post.create({
       id: Post.generateNewId(),
+      writerId: userId,
       content,
       boardType,
       techType,

@@ -1,8 +1,12 @@
 export class Optional<T> {
   private readonly value: T | null;
 
-  constructor(value: T) {
+  private constructor(value: T) {
     this.value = value;
+  }
+
+  static of(value: any) {
+    return new Optional(value);
   }
 
   get() {

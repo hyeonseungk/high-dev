@@ -18,6 +18,7 @@ export enum TechType {
 
 export type PostCreateParams = {
   id: ID;
+  writerId: ID;
   content: string;
   boardType: BoardType;
   techType: TechType | null;
@@ -27,9 +28,11 @@ export type PostCreateParams = {
 export class Post extends AggregateRoot {
   private constructor(
     id: ID,
+    private readonly writerId: ID,
     private content: Content,
     private boardType: BoardType,
     private techType: TechType,
+
     private readonly createdAt: Date | null,
   ) {
     super(id);
@@ -37,9 +40,10 @@ export class Post extends AggregateRoot {
   }
 
   static create(params: PostCreateParams) {
-    const { id, content, boardType, techType, createdAt } = params;
+    const { id, writerId, content, boardType, techType, createdAt } = params;
     return new Post(
       id,
+      writerId,
       Content.create({ value: content }),
       boardType,
       techType,

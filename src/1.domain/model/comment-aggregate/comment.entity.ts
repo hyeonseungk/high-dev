@@ -10,6 +10,7 @@ export enum CommentType {
 export type CommentCreateParams = {
   id: ID;
   postId: ID;
+  writerId: ID;
   content: string;
   type: CommentType;
   parentComentId: ID | null;
@@ -20,6 +21,7 @@ export class Comment extends AggregateRoot {
   private constructor(
     id: ID,
     private readonly postId: ID,
+    private readonly writerId: ID,
     private readonly content: Content,
     private readonly type: CommentType,
     private readonly parentCommentId: ID | null,
@@ -30,10 +32,12 @@ export class Comment extends AggregateRoot {
   }
 
   static create(params: CommentCreateParams) {
-    const { id, postId, content, type, parentComentId, createdAt } = params;
+    const { id, postId, writerId, content, type, parentComentId, createdAt } =
+      params;
     return new Comment(
       id,
       postId,
+      writerId,
       Content.create({ value: content }),
       type,
       parentComentId,

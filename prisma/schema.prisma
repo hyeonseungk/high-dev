@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id
+  companyEmailId String
+  companyEmailDomain String
+  nickname     String
+  deviceType   String
+  pushToken    String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime?
+  deletedAt    DateTime?
+}
+
+model Post {
+  id        String   @id
+  writerId  String
+  content   String
+  boardType String
+  techType  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+}
+
+model Comment {
+  id              String   @id
+  postId          String
+  writerId        String
+  content         String
+  type            String
+  parentCommentId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime?
+  deletedAt       DateTime?
+}

@@ -16,7 +16,7 @@ export class Nickname extends ValueObject {
     return new Nickname(value);
   }
 
-  protected validate(): void {
+  validate(): void {
     if (typeof this.value !== 'string' || this.value.length > 30) {
       throw new DomainError(DomainErrorCode.NICKNAME_INVALID);
     }

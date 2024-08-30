@@ -12,6 +12,21 @@ export type UserCreateParams = {
   pushToken: string;
 };
 
+export type UserDTO = {
+  id: ID;
+  companyEmail: {
+    emailId: string;
+    companyDomain: string;
+  };
+  nickname: {
+    value: string;
+  };
+  userMeta: {
+    deviceType: DeviceType;
+    pushToken: string;
+  };
+};
+
 // Parameter properties
 export class User extends AggregateRoot {
   private constructor(
@@ -40,5 +55,9 @@ export class User extends AggregateRoot {
     return '인증번호는 12341234입니다.';
   }
 
-  protected validate() {}
+  validate() {}
+
+  toDTO(): UserDTO {
+    return structuredClone(this) as unknown as UserDTO;
+  }
 }
