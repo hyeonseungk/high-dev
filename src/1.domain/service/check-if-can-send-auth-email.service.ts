@@ -1,7 +1,13 @@
+import { Inject, Injectable } from '@nestjs/common';
+import { OutgoingAdapter } from '../../3-3.config/di/outgoing-adapter.module';
 import { UserRepository } from '../out-port/persistence/user.repository.interface';
 
+@Injectable()
 export class CheckIfCanSendAuthEmailService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject(OutgoingAdapter.UserRepository)
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async check(emailAddress: string) {
     const userOptional =

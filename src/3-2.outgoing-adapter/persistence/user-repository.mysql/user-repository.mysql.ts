@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { DefaultArgs } from '@prisma/client/runtime/library';
 import { CompanyEmail } from '../../../1.domain/model/auth-log-aggregate/company-email.vo';
 import { Optional } from '../../../1.domain/model/base/type/optional';
 import { User } from '../../../1.domain/model/user-aggregate/user.entity';
 import { UserRepository } from '../../../1.domain/out-port/persistence/user.repository.interface';
-import { MysqlDbRepository } from '../mysql-db-repository/mysql-db-repository';
-import { UserMapper } from './user-mapper';
+import { MysqlDbManager } from '../db/mysql-db-manager';
+import { MysqlDbRepository } from '../db/mysql-db-repository';
+import { UserMapper } from './mapper';
 
 @Injectable()
 export class UserRepositoryMySQL
@@ -16,9 +17,9 @@ export class UserRepositoryMySQL
   user: Prisma.UserDelegate<DefaultArgs>;
   mapper: UserMapper;
 
-  constructor(prismaClient: PrismaClient) {
+  constructor(private readonly dbManager: MysqlDbManager) {
     super();
-    this.user = prismaClient.user;
+    this.user = dbManager.prismaClient.user;
   }
 
   async findOneByCompanyEmail(emailAddress: string): Promise<Optional<User>> {
@@ -38,12 +39,16 @@ export class UserRepositoryMySQL
   }
 
   async findOneByNickname(nickname: string): Promise<Optional<User>> {
-    const user = await this.user.findFirst({
+    const raw = await this.user.findFirst({
       where: {
         nickname,
       },
     });
-    return Optional.of(user);
+    if (raw) {
+      return Optional.of(this.mapper.toDomainEntity(raw));
+    } else {
+      return Optional.of(null);
+    }
   }
 
   async save(user: User): Promise<void> {

@@ -13,7 +13,7 @@ export type CommentCreateParams = {
   writerId: ID;
   content: string;
   type: CommentType;
-  parentComentId: ID | null;
+  parentCommentId: ID | null;
   createdAt: Date | null;
 };
 
@@ -32,7 +32,7 @@ export class Comment extends AggregateRoot {
   }
 
   static create(params: CommentCreateParams) {
-    const { id, postId, writerId, content, type, parentComentId, createdAt } =
+    const { id, postId, writerId, content, type, parentCommentId, createdAt } =
       params;
     return new Comment(
       id,
@@ -40,7 +40,7 @@ export class Comment extends AggregateRoot {
       writerId,
       Content.create({ value: content }),
       type,
-      parentComentId,
+      parentCommentId,
       createdAt,
     );
   }

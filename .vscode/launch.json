@@ -12,7 +12,7 @@
         "<node_internals>/**"
       ],
       "env": {
-				"NODE_ENV": "prd"
+				"NODE_ENV": "local"
 			},
       "program": "${workspaceFolder}/src/main.ts",
       "preLaunchTask": "npm: build",

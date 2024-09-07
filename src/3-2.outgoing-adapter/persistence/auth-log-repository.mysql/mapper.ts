@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
+
+import { DeviceType } from '@prisma/client';
 import { ID } from '../../../1.domain/model/base/type/id';
-import { User } from '../../../1.domain/model/user-aggregate/user.entity';
+import {
+  User,
+  UserDTO,
+} from '../../../1.domain/model/user-aggregate/user.entity';
 import { RawMetaData } from '../type';
 
 export type UserRaw = {
@@ -8,15 +13,16 @@ export type UserRaw = {
   companyEmailId: string;
   companyEmailDomain: string;
   nickname: string;
-  deviceType: string;
+  deviceType: DeviceType;
   pushToken: string;
 };
 
 @Injectable()
 export class UserMapper {
   toRaw(entity: User): UserRaw {
-    const { id, companyEmail, nickname, userMeta } = entity.toDTO();
-    const raw: UserRaw = {
+    const { id, companyEmail, nickname, userMeta } =
+      entity.toDTO() as unknown as UserDTO;
+    const raw = {
       id,
       companyEmailId: companyEmail.emailId,
       companyEmailDomain: companyEmail.companyDomain,

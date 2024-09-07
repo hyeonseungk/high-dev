@@ -16,6 +16,20 @@ export type AuthLogCreateParams = {
   createdAt: Date | null;
 };
 
+export type AuthLogDTO = {
+  id: ID;
+  companyEmail: {
+    value: string;
+  };
+  authCode: {
+    value: string;
+  };
+  authCase: {
+    value: AuthCase;
+  };
+  createdAt: string;
+};
+
 export class AuthLog extends AggregateRoot {
   private constructor(
     id: ID,

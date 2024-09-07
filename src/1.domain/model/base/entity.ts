@@ -14,5 +14,7 @@ export abstract class Entity {
 
   protected abstract validate(): void;
 
-  protected abstract toDTO();
+  toDTO() {
+    return structuredClone(this);
+  }
 }

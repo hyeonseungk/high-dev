@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { DiscoveryModule } from '@nestjs/core';
+import { IncomingAdapterModule } from './3-3.config/di/incoming-adapter.module';
+import { TransactionSetter } from './3-3.config/di/transaction-setter';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [IncomingAdapterModule, DiscoveryModule],
+  controllers: [],
+  providers: [TransactionSetter],
 })
 export class AppModule {}

@@ -50,14 +50,13 @@ export class User extends AggregateRoot {
     );
   }
 
-  static generateAuthEmailContent() {
+  static generateAuthEmail() {
     // TODO
-    return '인증번호는 12341234입니다.';
+    return {
+      emailTitle: '하이데브 인증메일입니다',
+      emailContent: '인증번호는 12341234입니다.',
+    };
   }
 
   validate() {}
-
-  toDTO(): UserDTO {
-    return structuredClone(this) as unknown as UserDTO;
-  }
 }

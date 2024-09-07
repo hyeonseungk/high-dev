@@ -11,22 +11,32 @@ model User {
   id           String   @id
   companyEmailId String
   companyEmailDomain String
-  nickname     String
-  deviceType   String
+  nickname     String @unique
+  deviceType   DeviceType
   pushToken    String
   createdAt    DateTime @default(now())
-  updatedAt    DateTime?
+  updatedAt    DateTime? @updatedAt
   deletedAt    DateTime?
+  posts Post[]
+
+  @@unique([companyEmailId, companyEmailDomain])
+  // @index([])
+}
+
+enum DeviceType {
+  ios
+  android
 }
 
 model Post {
   id        String   @id
-  writerId  String
+  writer User @relation(fields: [writerId], references: [id], onDelete: Restrict, onUpdate: Restrict)
+  writerId  String   
   content   String
   boardType String
   techType  String?
   createdAt DateTime @default(now())
-  updatedAt DateTime?
+  updatedAt DateTime? @updatedAt
   deletedAt DateTime?
 }
 
@@ -36,8 +46,10 @@ model Comment {
   writerId        String
   content         String
   type            String
-  parentCommentId String?
+  parentCommentId String? // Self-Relation? https://www.prisma.io/docs/orm/prisma-schema/data-model/relations/self-relations
   createdAt       DateTime @default(now())
-  updatedAt       DateTime?
+  updatedAt       DateTime? @updatedAt
   deletedAt       DateTime?
 }
+
+
